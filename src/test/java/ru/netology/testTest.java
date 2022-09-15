@@ -5,9 +5,14 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.Visible;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
@@ -18,14 +23,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class testTest {
 
-
+    public String searchDate(int days){
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    }
     @Test
     void shouldSend () {
         //Configuration.holdBrowserOpen=true;
         open("http://localhost:9999");
+        String date = searchDate(10);
+
         $("[data-test-id=\"city\"] input.input__control").setValue("Петропавловск-Камчатский");
-        $("[placeholder=\"Дата встречи\"]").clear();
-        $("[placeholder=\"Дата встречи\"]").setValue("22.09.2022");
+        $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
+        $("[placeholder=\"Дата встречи\"]").setValue(date);
         $("[data-test-id=\"name\"] input.input__control").setValue("Андрей Андрей-Андрей");
         $("[data-test-id=\"phone\"] input.input__control").setValue("+79301111111");
         $("[data-test-id=\"agreement\"] span.checkbox__box").click();
