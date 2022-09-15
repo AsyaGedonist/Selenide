@@ -24,8 +24,8 @@ public class testTest {
         //Configuration.holdBrowserOpen=true;
         open("http://localhost:9999");
         $("[data-test-id=\"city\"] input.input__control").setValue("Петропавловск-Камчатский");
-        //$("[placeholder=\"Дата встречи\"]").clear();
-        //$("[placeholder=\"Дата встречи\"]").setValue("22.09.2022");
+        $("[placeholder=\"Дата встречи\"]").clear();
+        $("[placeholder=\"Дата встречи\"]").setValue("22.09.2022");
         $("[data-test-id=\"name\"] input.input__control").setValue("Андрей Андрей-Андрей");
         $("[data-test-id=\"phone\"] input.input__control").setValue("+79301111111");
         $("[data-test-id=\"agreement\"] span.checkbox__box").click();
