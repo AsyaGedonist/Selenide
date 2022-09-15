@@ -1,6 +1,7 @@
 package ru.netology;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.conditions.Visible;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class testTest {
     @Test
     void shouldSend () {
         //Configuration.holdBrowserOpen=true;
-        open("http://localhost:9999");
+        Selenide.open("http://localhost:9999");
         $("[data-test-id=\"city\"] input.input__control").setValue("Петропавловск-Камчатский");
         //$("[placeholder=\"Дата встречи\"]").clear();
         $("[placeholder=\"Дата встречи\"]").setValue("22.09.2022");
