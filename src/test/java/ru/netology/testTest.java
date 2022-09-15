@@ -20,7 +20,7 @@ public class testTest {
 
     @Test
     void shouldSend () {
-        Configuration.holdBrowserOpen=true;
+        //Configuration.holdBrowserOpen=true;
         open("http://localhost:9999");
         $("[data-test-id=\"city\"] input.input__control").setValue("Петропавловск-Камчатский");
         //$("[placeholder=\"Дата встречи\"]").clear();
