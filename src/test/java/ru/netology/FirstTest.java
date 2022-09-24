@@ -1,5 +1,6 @@
 package ru.netology;
 
+import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -23,15 +24,17 @@ public class FirstTest {
     void shouldSend () {
         //Configuration.holdBrowserOpen=true;
         open("http://localhost:9999");
-        String date = searchDate(10);
+        String planningDate = searchDate(10);
 
         $("[data-test-id=\"city\"] input.input__control").setValue("Петропавловск-Камчатский");
         $("[placeholder=\"Дата встречи\"]").doubleClick().sendKeys(Keys.DELETE);
-        $("[placeholder=\"Дата встречи\"]").setValue(date);
+        $("[placeholder=\"Дата встречи\"]").setValue(planningDate);
         $("[data-test-id=\"name\"] input.input__control").setValue("Андрей Андрей-Андрей");
         $("[data-test-id=\"phone\"] input.input__control").setValue("+79301111111");
         $("[data-test-id=\"agreement\"] span.checkbox__box").click();
         $("[type=\"button\"].button").click();
-        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 }

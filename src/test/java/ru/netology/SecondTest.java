@@ -1,5 +1,6 @@
 package ru.netology;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -24,32 +25,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SecondTest {
 
-    public String searchDay(int days){
-        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("dd"));
-    }
-
-    public String searchMonth(int days){
-        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern("MM"));
+    public String searchByDate(int days, String pattern ){
+        return LocalDate.now().plusDays(days).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     @Test
     void shouldSend () {
         //Configuration.holdBrowserOpen=true;
         open("http://localhost:9999");
-        String today = searchDay(0);
-        String weekDay = searchDay(7);
-        String thisMonth = searchMonth(0);
-        String weekMonth = searchMonth(7);
+
+        String planningDate = searchByDate(4, "dd.MM.yyyy");
+        String weekDay = searchByDate(4, "d");
+        String thisMonth = searchByDate(0, "M");
+        String weekMonth = searchByDate(4, "M");
 
         $("[data-test-id=\"city\"] input.input__control").setValue("Ка");
-        $(byText("Петропавловск-Камчатский")).click();
+        $$(".menu-item_type_block").find(exactText("Петропавловск-Камчатский")).click();
 
         $$(".icon-button_size_m").first().click();
         if (thisMonth.equals(weekMonth)) {
-            $(byText(weekDay)).click();
+            $$(".calendar__day").find((exactText(weekDay))).click();
         } else {
             $("[data-step=\"1\"]").click();
-            $(byText(weekDay)).click();
+            $$(".calendar__day").find((exactText(weekDay))).click();
         }
 
         $("[data-test-id=\"name\"] input.input__control").setValue("Андрей Андрей-Андрей");
@@ -57,6 +55,8 @@ public class SecondTest {
         $("[data-test-id=\"agreement\"] span.checkbox__box").click();
         $("[type=\"button\"].button").click();
 
-        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15))
+                .shouldBe(Condition.visible);
     }
 }
